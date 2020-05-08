@@ -30,14 +30,56 @@
  */
 #include <gtest/gtest.h>
 
+#include <random>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "colhash/tuplehash.h"
+
+typedef std::uint64_t u64;
 
 TEST(TupleHash, useInUnorderedSet) {
   std::unordered_set<std::tuple<int, double, char> > elements;
   elements.insert(std::make_tuple(89, 90.1, 'c'));
   ASSERT_EQ(elements.count(std::make_tuple(89, 90.1, 'c')), 1u);
+}
+
+TEST(TupleHash, useInUnorderedMap) {
+  std::unordered_map<std::tuple<int, double, char>, int > elements;
+  elements.insert(std::make_pair(std::make_tuple(89, 90.1, 'c'), 123));
+  ASSERT_EQ(elements.count(std::make_tuple(89, 90.1, 'c')), 1u);
+}
+
+TEST(TupleHash, distribution) {
+  std::mt19937_64 prng;
+  std::uniform_int_distribution<u64> dist;
+  std::hash<std::tuple<u64, u64, u64> > hasher;
+
+  for (u64 t = 0; t < 100; t++) {
+    // setup
+    u64 r = dist(prng) % 100;
+    std::vector<u64> counts(4, 0);
+
+    // hashing and counting
+    for (u64 a = 0; a < 1000000; a++) {
+      u64 s = dist(prng) % 256;
+      u64 d = dist(prng) % 256;
+      size_t h = hasher(std::make_tuple(s, d, r)) % 4;
+      counts.at(h)++;
+    }
+
+    // checking
+    double average = 0.0;
+    for (u64 c : counts) {
+      average += c;
+    }
+    average /= counts.size();
+    for (u64 c : counts) {
+      double abs_ratio = std::abs(static_cast<double>(c) / average - 1.0);
+      // printf("%lu: %f\n", t, abs_ratio); fflush(stdout);
+      ASSERT_LE(abs_ratio, 0.01);
+    }
+  }
 }
