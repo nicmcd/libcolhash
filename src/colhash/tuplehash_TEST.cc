@@ -57,7 +57,9 @@ TEST(TupleHash, distribution) {
   std::uniform_int_distribution<u64> dist;
   std::hash<std::tuple<u64, u64, u64> > hasher;
 
-  for (u64 t = 0; t < 100; t++) {
+  double ave_ratio = 0.0;
+  u64 ave_count = 0;
+  for (u64 t = 0; t < 200; t++) {
     // setup
     u64 r = dist(prng) % 100;
     std::vector<u64> counts(4, 0);
@@ -80,8 +82,12 @@ TEST(TupleHash, distribution) {
       double abs_ratio = std::abs(static_cast<double>(c) / average - 1.0);
       // printf("%lu: %f\n", t, abs_ratio); fflush(stdout);
       ASSERT_LE(abs_ratio, 0.01);
+      ave_ratio += abs_ratio;
+      ave_count++;
     }
   }
+  ave_ratio /= ave_count;
+  ASSERT_LE(ave_ratio, 0.0015);
 }
 
 TEST(TupleHash, reproducable) {
