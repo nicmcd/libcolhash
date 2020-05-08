@@ -83,3 +83,24 @@ TEST(TupleHash, distribution) {
     }
   }
 }
+
+TEST(TupleHash, reproducable) {
+  std::mt19937_64 prng;
+  std::uniform_int_distribution<u64> dist;
+  std::hash<std::tuple<u64, u64, u64> > hasher;
+
+  std::unordered_map<std::tuple<u64, u64, u64>, size_t> cache;
+  for (u64 z = 0; z < 10000000; z++) {
+    u64 a = dist(prng) % 32;
+    u64 b = dist(prng) % 32;
+    u64 c = dist(prng) % 32;
+    auto t = std::make_tuple(a, b, c);
+    size_t h = hasher(t);
+    if (cache.find(t) == cache.end()) {
+      cache[t] = h;
+    } else {
+      ASSERT_EQ(cache.at(t), h);
+    }
+  }
+  ASSERT_EQ(cache.size(), 32768);
+}
