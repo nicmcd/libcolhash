@@ -41,13 +41,21 @@
 typedef std::uint64_t u64;
 
 TEST(TupleHash, useInUnorderedSet) {
-  std::unordered_set<std::tuple<int, double, char> > elements;
-  elements.insert(std::make_tuple(89, 90.1, 'c'));
-  ASSERT_EQ(elements.count(std::make_tuple(89, 90.1, 'c')), 1u);
+  std::unordered_set<std::tuple<int, double>> elements2;
+  elements2.insert(std::make_tuple(89, 90.1));
+  ASSERT_EQ(elements2.count(std::make_tuple(89, 90.1)), 1u);
+
+  std::unordered_set<std::tuple<int, double, char>> elements3;
+  elements3.insert(std::make_tuple(89, 90.1, 'c'));
+  ASSERT_EQ(elements3.count(std::make_tuple(89, 90.1, 'c')), 1u);
+
+  std::unordered_set<std::tuple<int, double, char, int>> elements4;
+  elements4.insert(std::make_tuple(89, 90.1, 'c', 6));
+  ASSERT_EQ(elements4.count(std::make_tuple(89, 90.1, 'c', 6)), 1u);
 }
 
 TEST(TupleHash, useInUnorderedMap) {
-  std::unordered_map<std::tuple<int, double, char>, int > elements;
+  std::unordered_map<std::tuple<int, double, char>, int> elements;
   elements.insert(std::make_pair(std::make_tuple(89, 90.1, 'c'), 123));
   ASSERT_EQ(elements.count(std::make_tuple(89, 90.1, 'c')), 1u);
 }
@@ -55,7 +63,7 @@ TEST(TupleHash, useInUnorderedMap) {
 TEST(TupleHash, distribution) {
   std::mt19937_64 prng;
   std::uniform_int_distribution<u64> dist;
-  std::hash<std::tuple<u64, u64, u64> > hasher;
+  std::hash<std::tuple<u64, u64, u64>> hasher;
 
   double ave_ratio = 0.0;
   u64 ave_count = 0;
@@ -93,7 +101,7 @@ TEST(TupleHash, distribution) {
 TEST(TupleHash, reproducable) {
   std::mt19937_64 prng;
   std::uniform_int_distribution<u64> dist;
-  std::hash<std::tuple<u64, u64, u64> > hasher;
+  std::hash<std::tuple<u64, u64, u64>> hasher;
 
   std::unordered_map<std::tuple<u64, u64, u64>, size_t> cache;
   for (u64 z = 0; z < 10000000; z++) {

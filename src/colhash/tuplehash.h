@@ -31,12 +31,14 @@
 #ifndef COLHASH_TUPLEHASH_H_
 #define COLHASH_TUPLEHASH_H_
 
+#include <functional>
 #include <tuple>
 
 namespace std {
 
 template <typename A, typename B>
-struct hash<std::tuple<A, B> > {
+struct hash<std::tuple<A, B>>
+    : public std::unary_function<std::tuple<A, B>, size_t> {
   size_t operator()(const std::tuple<A, B>& t) const {
     std::hash<A> ah;
     std::hash<B> bh;
@@ -50,7 +52,8 @@ struct hash<std::tuple<A, B> > {
 };
 
 template <typename A, typename B, typename C>
-struct hash<std::tuple<A, B, C> > {
+struct hash<std::tuple<A, B, C>>
+    : public std::unary_function<std::tuple<A, B, C>, size_t> {
   size_t operator()(const std::tuple<A, B, C>& t) const {
     std::hash<A> ah;
     std::hash<B> bh;
@@ -67,7 +70,8 @@ struct hash<std::tuple<A, B, C> > {
 };
 
 template <typename A, typename B, typename C, typename D>
-struct hash<std::tuple<A, B, C, D> > {
+struct hash<std::tuple<A, B, C, D>>
+    : public std::unary_function<std::tuple<A, B, C, D>, size_t> {
   size_t operator()(const std::tuple<A, B, C, D>& t) const {
     std::hash<A> ah;
     std::hash<B> bh;
@@ -87,7 +91,8 @@ struct hash<std::tuple<A, B, C, D> > {
 };
 
 template <typename A, typename B, typename C, typename D, typename E>
-struct hash<std::tuple<A, B, C, D, E> > {
+struct hash<std::tuple<A, B, C, D, E>>
+    : public std::unary_function<std::tuple<A, B, C, D, E>, size_t> {
   size_t operator()(const std::tuple<A, B, C, D, E>& t) const {
     std::hash<A> ah;
     std::hash<B> bh;
@@ -111,7 +116,8 @@ struct hash<std::tuple<A, B, C, D, E> > {
 
 template <typename A, typename B, typename C, typename D, typename E,
           typename F>
-struct hash<std::tuple<A, B, C, D, E, F> > {
+struct hash<std::tuple<A, B, C, D, E, F>>
+    : public std::unary_function<std::tuple<A, B, C, D, E, F>, size_t> {
   size_t operator()(const std::tuple<A, B, C, D, E, F>& t) const {
     std::hash<A> ah;
     std::hash<B> bh;
@@ -138,7 +144,8 @@ struct hash<std::tuple<A, B, C, D, E, F> > {
 
 template <typename A, typename B, typename C, typename D, typename E,
           typename F, typename G>
-struct hash<std::tuple<A, B, C, D, E, F, G> > {
+struct hash<std::tuple<A, B, C, D, E, F, G>>
+    : public std::unary_function<std::tuple<A, B, C, D, E, F, G>, size_t> {
   size_t operator()(const std::tuple<A, B, C, D, E, F, G>& t) const {
     std::hash<A> ah;
     std::hash<B> bh;
