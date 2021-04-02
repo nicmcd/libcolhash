@@ -1,6 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
-release = "1.8.1"
+release = "1.10.0"
 http_archive(
   name = "googletest",
   urls = ["https://github.com/google/googletest/archive/release-" + release + ".tar.gz"],
