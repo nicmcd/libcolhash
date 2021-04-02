@@ -19,3 +19,8 @@ http_archive(
   strip_prefix = "cpplint-" + release,
   build_file = "@cpplint_build//file:downloaded",
 )
+
+http_file(
+  name = "clang_format",
+  urls = ["https://raw.githubusercontent.com/nicmcd/pkgbuild/master/clang-format"],
+)

@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#include <gtest/gtest.h>
+#include "colhash/tuplehash.h"
 
 #include <random>
 #include <tuple>
@@ -36,7 +36,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "colhash/tuplehash.h"
+#include "gtest/gtest.h"
 
 typedef std::uint64_t u64;
 
