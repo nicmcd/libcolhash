@@ -1,0 +1,14 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}/@CMAKE_INSTALL_LIBEXECDIR@
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+datarootdir = ${prefix}/@CMAKE_INSTALL_DATAROOTDIR@
+datadir=${prefix}/@CMAKE_INSTALL_DATADIR@
+
+Name: libcolhash
+Description: A library for hashing C++ standard collections.
+URL: https://github.com/nicmcd/libcolhash
+Version: 0.1.0
+Requires: 
+Libs: -L${libdir} -lcolhash 
+Cflags: -I${includedir}
